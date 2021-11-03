@@ -60,6 +60,7 @@ header > div {
     justify-content: center;
     align-items: center;
     color: #ffffff;
+    font-size: 2rem;
   }
 
 .squareEasy {
@@ -80,5 +81,12 @@ header > div {
 
 .active {
     background-color: #2a9d8f;
+    cursor: not-allowed;
+}
+
+.bomb {
+    background-color: #e76f51;
+    border: solid 5px #e76f51;
+    font-weight: bold;
     cursor: not-allowed;
 }
