@@ -37,10 +37,14 @@ let difficultyNum = '';
 
 let points = 0;
 
+const loseAlert = document.getElementById('lose');
+const winAlert = document.getElementById('win');
+
 easyBtn.addEventListener('click', 
     function() {
         difficultyNum = 100;
         points = 0;
+        loseAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -54,6 +58,7 @@ mediumBtn.addEventListener('click',
     function() {
         difficultyNum = 81;
         points = 0;
+        loseAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -68,6 +73,7 @@ hardBtn.addEventListener('click',
     function() {
         difficultyNum = 49;
         points = 0;
+        loseAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -141,12 +147,18 @@ function squareClick(x, y) {
                     for (let i = 0; i < bombSelector.length; i++) {
                         bombSelector[i].classList.add('bomb');
                     }
+                    loseAlert.style.display = 'block';
+                    loseAlert.innerHTML = `Hai perso! Il tuo punteggio è ${points}`
                 }
             );
         } else {
             squareSelector[i].addEventListener('click',
                 function() {
                     squareSelector[i].classList.add('active');
+                    points++
+                    squareSelector[i].disabled = true;
+                    
+                    console.log(points);
                 }
             );
         }
