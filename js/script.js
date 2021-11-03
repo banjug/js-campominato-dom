@@ -32,7 +32,9 @@ const gridContainer = document.getElementById('container');
 const easyBtn = document.getElementById("btnEasy");
 const mediumBtn = document.getElementById("btnMedium");
 const hardBtn = document.getElementById("btnHard");
+
 let difficultyNum = '';
+
 let points = 0;
 
 easyBtn.addEventListener('click', 
@@ -44,8 +46,7 @@ easyBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareEasy")
 
-        squareClickAdd('[class^="square"]', 'active')
-
+        squareClick('bombPlace')
     }
 );
 
@@ -58,8 +59,7 @@ mediumBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareMedium") 
 
-        squareClickAdd('[class^="square"]', 'active')
-        
+        squareClick('bombPlace')
     }
     
 );
@@ -73,7 +73,7 @@ hardBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareHard")
 
-        squareClickAdd('[class^="square"]', 'active')
+        squareClick('bombPlace')
     }
 );
 
@@ -95,38 +95,41 @@ function gridDifficulty(x, y) {
         let newElem = squareGenerator("div", y);
         gridContainer.appendChild(newElem);
     }
+
+    let squareSelector = document.querySelectorAll('[class^="square"]');
+    let squareArr = [];
+    for (let i = 0; i < squareSelector.length; i++) {
+        squareSelector[i].innerText = i + 1;
+        squareArr.push(i + 1);
+    }
+    console.log(squareSelector);
+
+    // genera le bombe
+    let bombArray = [];
+    while (bombArray.length < 16) {
+        let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
+        if (bombArray.includes(bombNum) == false) {
+            bombArray.push(bombNum);
+        }
+    }
+    console.log(bombArray);
+
+    for (i = 0; i < squareArr.length; i++) {
+        if (bombArray.includes(squareArr[i]))
+        squareSelector[i].classList.add('bombPlace');
+    }
 }
 
-// al click cambia lo sfondo dei quadrati e aggiunge il numero all'interno
-function squareClickAdd(x, y) {
-    let squareClick = document.querySelectorAll(x);    
-        console.log(squareClick);
-        
-        // genera le bombe
-        let bombArray = [];
-        while (bombArray.length < 16) {
-            let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
-            if (bombArray.includes(bombNum) == false) {
-                bombArray.push(bombNum);
+function squareClick(x) {
+    var squareSelector = document.querySelectorAll(x);
+    console.log(squareSelector);
+    
+    for (let i = 0; i < squareSelector.length; i++) {
+        squareSelector.addEventListener('click',
+            function() {
+                squareSelector.classList.add('bomb')
             }
-        }
+        );        
+    }
 
-        for (let i = 0; i < squareClick.length; i++) {
-            squareClick[i].addEventListener ('click', 
-                function() {
-                    squareClick[i].classList.add(y);
-                    if (bombArray.includes(i)) {
-                        // se clicco su una bomba 
-                        squareClick[i].innerText = "X";
-                        squareClick[i].classList.add("bomb")
-                    } else {
-                        // se clicco su una casella libera
-                        squareClick[i].innerText = i + 1;
-                        points++;
-                        console.log(points);
-                    }
-                }
-            );
-        }
 }
-
