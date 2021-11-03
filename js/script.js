@@ -17,9 +17,10 @@ SECONDA PARTE--------------------------------------------------
     1.1 controllare che i numeri non siano duplicati
 2.marchiare le celle con uno dei numeri generati come bomba
 3.se clicco su una bomba imposto un diverso colore
-4.contare il numero di click corretti prima di cliccare una bomba (punteggio)
-5.il gioco finisce se clicco su una bomba o se scelgo tutte le caselle senza bomba
-6.quando clicco su una bomba mostrare tutte le caselle contententi una bomba
+4.quando clicco su una bomba mostrare tutte le caselle contententi una bomba
+5.contare il numero di click corretti prima di cliccare una bomba (punteggio)
+    5.1 impedire che continuando a cliccare sulla stessa casella il punteggio salga
+6.il gioco finisce se clicco su una bomba o se scelgo tutte le caselle senza bomba
 
 */
 
@@ -29,6 +30,7 @@ SECONDA PARTE--------------------------------------------------
 // seleziona container griglia
 const gridContainer = document.getElementById('container');
 
+// seleziona bottoni selezione difficoltà
 const easyBtn = document.getElementById("btnEasy");
 const mediumBtn = document.getElementById("btnMedium");
 const hardBtn = document.getElementById("btnHard");
@@ -37,6 +39,7 @@ let difficultyNum = '';
 
 let points = 0;
 
+// alert vittoria e sconfitta
 const loseAlert = document.getElementById('lose');
 const winAlert = document.getElementById('win');
 
@@ -102,6 +105,7 @@ function gridDifficulty(x, y) {
         gridContainer.appendChild(newElem);
     }
 
+    // genera i quadrati con il numero all'interno
     let squareSelector = document.querySelectorAll('[class^="square"]');
     let squareArr = [];
     for (let i = 0; i < squareSelector.length; i++) {
@@ -110,7 +114,7 @@ function gridDifficulty(x, y) {
     }
     console.log(squareSelector);
 
-    // genera le bombe
+    // genera l'array di bombe
     let bombArray = [];
     while (bombArray.length < 16) {
         let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
@@ -120,17 +124,20 @@ function gridDifficulty(x, y) {
     }
     console.log(bombArray);
 
+    // se il quadrato ha un numero presente nell'array di bombe allora imposto una classe placeholder
     for (i = 0; i < squareArr.length; i++) {
         if (bombArray.includes(squareArr[i]))
         squareSelector[i].classList.add('bombPlace');
     }
 }
 
+// click sul singolo quadratino
 function squareClick(x, y) {
     let squareSelector = document.querySelectorAll(x);
     let bombSelector = [];
     console.log(squareSelector);
     
+    // se il quadratino ha la classe placeholder della bomba lo metto in un array 
     for (let i = 0; i < squareSelector.length; i++) {
         if (squareSelector[i].classList.contains(y)) {
             bombSelector.push(squareSelector[i]);
@@ -142,6 +149,7 @@ function squareClick(x, y) {
 
     for (let i = 0; i < squareSelector.length; i++) {
         if (squareSelector[i].classList.contains(y)) {
+            // se il quadratino cliccato ha la classe placeholder imposto la classe bomb che fa diventare lo sfondo rosso a tutti i quadratini bomba 
             squareSelector[i].addEventListener('click',
                 function() {
                     for (let i = 0; i < bombSelector.length; i++) {
@@ -152,6 +160,7 @@ function squareClick(x, y) {
                 }
             );
         } else {
+            // se il quadratino cliccato non è una bomba cambio lo sfondo in azzurro e aumento il contatore dei punti 
             squareSelector[i].addEventListener('click',
                 function() {
                     squareSelector[i].classList.add('active');
