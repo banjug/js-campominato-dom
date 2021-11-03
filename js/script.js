@@ -131,11 +131,15 @@ function gridDifficulty(x, y) {
     }
 }
 
+
+
 // click sul singolo quadratino
 function squareClick(x, y) {
     let squareSelector = document.querySelectorAll(x);
     let bombSelector = [];
     console.log(squareSelector);
+
+    
     
     // se il quadratino ha la classe placeholder della bomba lo metto in un array 
     for (let i = 0; i < squareSelector.length; i++) {
@@ -148,6 +152,17 @@ function squareClick(x, y) {
 
 
     for (let i = 0; i < squareSelector.length; i++) {
+
+        // funzione per i quadratini normali, dopo essere stato cliccato una volta blocca il click, evitando che il punteggio salga ricliccando sullo stesso quadratino
+        function activeClick() {
+            squareSelector[i].classList.add('active');
+            points++
+            
+            console.log(points);
+            squareSelector[i].removeEventListener('click', activeClick);
+        
+        }
+
         if (squareSelector[i].classList.contains(y)) {
             // se il quadratino cliccato ha la classe placeholder imposto la classe bomb che fa diventare lo sfondo rosso a tutti i quadratini bomba 
             squareSelector[i].addEventListener('click',
@@ -160,17 +175,10 @@ function squareClick(x, y) {
                 }
             );
         } else {
-            // se il quadratino cliccato non è una bomba cambio lo sfondo in azzurro e aumento il contatore dei punti 
-            squareSelector[i].addEventListener('click',
-                function() {
-                    squareSelector[i].classList.add('active');
-                    points++
-                    squareSelector[i].disabled = true;
-                    
-                    console.log(points);
-                }
-            );
+            // se il quadratino cliccato non è una bomba cambio lo sfondo in azzurro e aumento il contatore dei punti (richiama la funzione creata all'inizio del ciclo)
+            squareSelector[i].addEventListener('click', activeClick);
         }
     }
 
 }
+
