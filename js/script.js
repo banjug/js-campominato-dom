@@ -33,10 +33,12 @@ const easyBtn = document.getElementById("btnEasy");
 const mediumBtn = document.getElementById("btnMedium");
 const hardBtn = document.getElementById("btnHard");
 let difficultyNum = '';
+let points = 0;
 
 easyBtn.addEventListener('click', 
     function() {
         difficultyNum = 100;
+        points = 0;
 
         gridContainer.innerHTML = "";
 
@@ -50,6 +52,7 @@ easyBtn.addEventListener('click',
 mediumBtn.addEventListener('click', 
     function() {
         difficultyNum = 81;
+        points = 0;
 
         gridContainer.innerHTML = "";
 
@@ -64,6 +67,7 @@ mediumBtn.addEventListener('click',
 hardBtn.addEventListener('click', 
     function() {
         difficultyNum = 49;
+        points = 0;
 
         gridContainer.innerHTML = "";
 
@@ -98,6 +102,7 @@ function squareClickAdd(x, y) {
     let squareClick = document.querySelectorAll(x);    
         console.log(squareClick);
         
+        // genera le bombe
         let bombArray = [];
         while (bombArray.length < 16) {
             let bombNum = Math.floor(Math.random() * difficultyNum) + 1;
@@ -111,10 +116,14 @@ function squareClickAdd(x, y) {
                 function() {
                     squareClick[i].classList.add(y);
                     if (bombArray.includes(i)) {
+                        // se clicco su una bomba 
                         squareClick[i].innerText = "X";
                         squareClick[i].classList.add("bomb")
                     } else {
+                        // se clicco su una casella libera
                         squareClick[i].innerText = i + 1;
+                        points++;
+                        console.log(points);
                     }
                 }
             );
