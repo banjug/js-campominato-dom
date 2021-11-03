@@ -48,6 +48,7 @@ easyBtn.addEventListener('click',
         difficultyNum = 100;
         points = 0;
         loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -62,6 +63,7 @@ mediumBtn.addEventListener('click',
         difficultyNum = 81;
         points = 0;
         loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -77,6 +79,7 @@ hardBtn.addEventListener('click',
         difficultyNum = 49;
         points = 0;
         loseAlert.style.display = 'none';
+        winAlert.style.display = 'none';
 
         gridContainer.innerHTML = "";
 
@@ -157,6 +160,11 @@ function squareClick(x, y) {
         function activeClick() {
             squareSelector[i].classList.add('active');
             points++
+
+            if (points == difficultyNum - 16) {
+                winAlert.style.display = 'block';
+                winAlert.innerHTML = `Hai vinto! Hai evitato tutte le bombe ottenendo ${points} punti.`
+            }
             
             console.log(points);
             squareSelector[i].removeEventListener('click', activeClick);
