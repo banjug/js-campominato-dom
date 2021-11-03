@@ -46,7 +46,7 @@ easyBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareEasy")
 
-        squareClick('bombPlace')
+        squareClick('[class^="square"]', 'bombPlace')
     }
 );
 
@@ -59,7 +59,7 @@ mediumBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareMedium") 
 
-        squareClick('bombPlace')
+        squareClick('[class^="square"]', 'bombPlace')
     }
     
 );
@@ -73,7 +73,7 @@ hardBtn.addEventListener('click',
 
         gridDifficulty(difficultyNum, "squareHard")
 
-        squareClick('bombPlace')
+        squareClick('[class^="square"]', 'bombPlace')
     }
 );
 
@@ -120,16 +120,36 @@ function gridDifficulty(x, y) {
     }
 }
 
-function squareClick(x) {
-    var squareSelector = document.querySelectorAll(x);
+function squareClick(x, y) {
+    let squareSelector = document.querySelectorAll(x);
+    let bombSelector = [];
     console.log(squareSelector);
     
     for (let i = 0; i < squareSelector.length; i++) {
-        squareSelector.addEventListener('click',
-            function() {
-                squareSelector.classList.add('bomb')
-            }
-        );        
+        if (squareSelector[i].classList.contains(y)) {
+            bombSelector.push(squareSelector[i]);
+        }
+    }
+    
+    console.log(bombSelector);
+
+
+    for (let i = 0; i < squareSelector.length; i++) {
+        if (squareSelector[i].classList.contains(y)) {
+            squareSelector[i].addEventListener('click',
+                function() {
+                    for (let i = 0; i < bombSelector.length; i++) {
+                        bombSelector[i].classList.add('bomb');
+                    }
+                }
+            );
+        } else {
+            squareSelector[i].addEventListener('click',
+                function() {
+                    squareSelector[i].classList.add('active');
+                }
+            );
+        }
     }
 
 }
