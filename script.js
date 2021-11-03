@@ -1,3 +1,6 @@
+console.log('hello world');
+
+
 /*
 // ------------------------------------------------------------
 PRIMA PARTE----------------------------------------------------
@@ -38,9 +41,9 @@ easyBtn.addEventListener('click',
         gridContainer.innerHTML = "";
 
         gridDifficulty(100, "squareEasy")
-
-        squareClickAdd('[class^="square"]', 'active')
         
+        squareClickAdd('[class^="square"]', 'active')
+
     }
 );
 
@@ -48,7 +51,7 @@ mediumBtn.addEventListener('click',
     function() {
         gridContainer.innerHTML = "";
 
-        gridDifficulty(81, "squareMedium")    
+        gridDifficulty(81, "squareMedium") 
 
         squareClickAdd('[class^="square"]', 'active')
         
@@ -99,4 +102,16 @@ function squareClickAdd(x, y) {
                 }
             );
         }
+}
+
+// genera le bombe
+function bombGenerator(x) {
+    let bombArray = [];
+    for (i = 0; i < x; i++) {
+        let bombNum = Math.floor(Math.random() * x) + 1;
+        if (bombArray.includes(bombNum) == false) {
+            bombArray.push(bombNum);
+        }
+    }
+    console.log(bombArray);
 }
